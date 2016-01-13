@@ -45,17 +45,19 @@ def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
     text = ""
-    random_key = choice(chains.keys())
-    text += random_key[0] + " " + random_key[1]
-    # print "chains is ", chains
-    # print "random key is ", random_key
+    current_key = choice(chains.keys())
+    text += current_key[0] + " " + current_key[1]
 
-    while not KeyError:
-        value = choice(chains[random_key])
-        print "value is ", value
-        text += " " + value
-        new_key = (random_key[1], value)
-    print "final text is: ", text
+    # while current key does not raise a key error
+    while True:
+        try:
+            value = choice(chains[current_key])
+            text += " " + value
+            new_key = (current_key[1], value)
+            current_key = new_key
+        except KeyError:
+            break
+    return text
 
 input_path = "green-eggs.txt"
 
@@ -68,4 +70,4 @@ chains = make_chains(input_text)
 # # Produce random text
 random_text = make_text(chains)
 
-# print random_text
+print random_text
